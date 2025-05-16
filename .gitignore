@@ -1,0 +1,391 @@
+# Environments
+backend/.env
+backend/.venv
+backend/env/
+backend/venv/
+backend/ENV/
+backend/env.bak/
+backend/venv.bak/
+# -----------------------
+# Global
+# -----------------------
+
+# macOS Finder
+.DS_Store
+
+# Windows thumbnail cache
+Thumbs.db
+ehthumbs.db
+
+# VSCode
+.vscode/
+
+# JetBrains IDEs
+.idea/
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.*.local
+
+# -----------------------
+# Python / Django (backend/)
+# -----------------------
+
+# Byte-compiled / optimized / DLL files
+backend/__pycache__/
+backend/**/*.py[cod]
+backend/**/*.pyo
+backend/*$py.class
+
+# C extensions
+*.so
+
+# Virtual environments
+backend/venv/
+backend/.venv/
+
+# Django stuff:
+backend/*.sqlite3
+backend/db.sqlite3
+backend/media/
+backend/staticfiles/
+
+# Migrations (you may want to track initial migrations, so adjust if needed)
+backend/**/migrations/
+!backend/**/migrations/__init__.py
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# -----------------------
+# Node / React (frontend/)
+# -----------------------
+
+# dependencies
+frontend/node_modules/
+
+# production build
+frontend/build/
+frontend/dist/
+
+# local env files
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# misc
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.parcel-cache/
+frontend/.next/
+frontend/out/
+
+# IDE lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# -----------------------
+# Uvicorn / ASGI (if you generate logs or reload files)
+# -----------------------
+# Uvicorn auto-reload temp files
+*.reload.*
+gunicorn-error.log
+gunicorn-access.log
+
+# .gitignore
+
+# General
+################################################################################
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+build/
+dist/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Instance/sensitive data
+# IMPORTANT: Add any other files that contain sensitive credentials!
+instance/
+local_settings.py
+*.sqlite3
+*.sqlite3-journal
+db.sqlite3
+db.sqlite3-journal
+
+# Environment variables - These should be specific to frontend/backend if needed
+# or handled by a single .env at the root if that's your setup.
+# For clarity, we'll specify them within their respective sections.
+# .env
+
+# OS-generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+
+# IDE & Editor specific files
+# IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+# VSCode
+.vscode/
+# SublimeText
+*.sublime-project
+*.sublime-workspace
+# Atom
+.atom/
+# Eclipse
+.project
+.classpath
+.settings/
+# Netbeans
+nbproject/
+# PyCharm
+# .idea/ (already covered)
+# Spyder
+.spyderproject
+.spyproject
+# Vim
+*~
+*.swp
+*.swo
+
+# Frontend (React - in /frontend directory)
+################################################################################
+frontend/node_modules/
+frontend/build/
+frontend/dist/
+frontend/.pnp
+frontend/.pnp.js
+frontend/coverage/
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/.eslintcache
+
+# Backend (Django & uv - in /backend directory)
+################################################################################
+# uv specific (uv also creates a .gitignore in .venv)
+# It's good practice to include .venv at the root level for the backend
+# in case other virtual environments are created or if uv's internal one is missed.
+backend/.venv/
+
+# Django specific
+backend/static_root/
+backend/staticfiles_build/ # If you use a different name for collected static files
+backend/media/ # User-uploaded files
+backend/*.log
+backend/celerybeat-schedule
+backend/celerybeat.pid
+
+# Database files (if not already covered by general section)
+# backend/db.sqlite3 (already covered)
+
+# Environment variables for backend
+backend/.env
+
+# If you generate .mo/.po files for translations and don't want to commit compiled .mo
+# backend/**/*.mo
+
+# Notes for `uv` usage in `backend/`:
+# - `uv init` typically creates its own .gitignore in `backend/` which includes:
+#   __pycache__/
+#   *.py[oc]
+#   build/
+#   dist/
+#   wheels/
+#   *.egg-info
+#   .venv
+#   This root .gitignore complements that or can be the primary one if you prefer.
+# - IMPORTANT: `uv.lock` (likely in `backend/uv.lock`) SHOULD be committed to version control.
+#   Do NOT add `backend/uv.lock` to this .gitignore file.
+# - Similarly, `backend/pyproject.toml` should also be committed.
+
+# If you have other specific log files or temporary files, add them here.
+# For example:
+# my_custom_log_*.log
+
+# Frontend (React) specific ignores
+frontend/node_modules/
+frontend/.env
+frontend/.eslintcache
+frontend/build/
+frontend/coverage/
+frontend/dist/
+frontend/.DS_Store
+frontend/.npm
+frontend/.cache/
+frontend/yarn-error.log
+
+# Backend (Django) specific ignores
+backend/__pycache__/
+backend/*/__pycache__/
+backend/*/*/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.env.local
+.env.development
+.env.production
+db.sqlite3
+media/
+staticfiles/
+*.log
+*.pot
+*.mo
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# uv specific (Python package management)
+.uv/
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing
+.coverage
+htmlcov/
+
+# Local development
+.DS_Store
+Thumbs.db
+
+# Build files
+frontend/.next/
+frontend/out/
+
+# Dependencies and Environment
+node_modules/
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.uv/
+.venv/
+venv/
+ENV/
+env/
+
+# Build and Distribution
+/build/
+/dist/
+*.egg-info/
+*.egg
+frontend/build/
+frontend/dist/
+backend/static/
+backend/media/
+
+# Development and IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# React specific
+/frontend/.pnp
+/frontend/.pnp.js
+/frontend/coverage
+/frontend/build
+/frontend/.DS_Store
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
+
+# Django specific
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+/backend/staticfiles/
+/backend/mediafiles/
+
+# Python specific
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Misc
+*.bak
+*.tmp
+*.temp
+.history
