@@ -17,7 +17,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomeScreen />} exact />
             <Route path="/doctor" element={<DoctorScreen />} />
-            {/* <Route path="/patient" element={<PatientScreen />} /> */}
+            <Route path="/patient/:id" element={<PatientScreen />} />
           </Routes>
         </Container>
       </main>

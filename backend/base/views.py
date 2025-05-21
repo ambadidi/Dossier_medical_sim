@@ -16,6 +16,7 @@ def getRoutes(request):
         '/api/patients/',
         '/api/patients/create/',
         '/api/patients/upload/',
+        '/api/patients/<id>/'
     ]
     return Response(routes)
 
@@ -29,4 +30,10 @@ def getPatients(request):
 def getPatient(request, pk):
     patient = Patient.objects.get(_id=pk)
     serializer = PatientSerializer(patient, many=False)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getDoctor(request):
+    doctor = Doctor.objects.all()
+    serializer = DoctorSerializer(doctor, many=True)
     return Response(serializer.data)
