@@ -54,5 +54,6 @@ def getUserProfile(request):
 @permission_classes([IsAdminUser])
 def getUsers(request):
     users = User.objects.all()
+    print(users)
     serializer = PatientSerializer(users, many=True)
     return Response(serializer.data)
