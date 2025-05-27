@@ -22,8 +22,8 @@ export const listPatients = () => async (dispatch) => {
     dispatch({
       type: PATIENT_LIST_FAIL,
       payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
+        error.response && error.response.data.detail
+          ? error.response.data.detail
           : error.message,
     });
   }
@@ -43,8 +43,8 @@ export const listPatientDetails = (id) => async (dispatch) => {
       dispatch({
         type: PATIENT_DETAILS_FAIL,
         payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
+          error.response && error.response.data.detail
+            ? error.response.data.detail
             : error.message,
       });
     }

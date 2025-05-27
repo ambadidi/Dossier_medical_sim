@@ -1,8 +1,20 @@
 import React from "react";
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from "react-router-dom";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
+import { logout } from '../actions/userActions'
 
 function MyNavbar() {
+
+  const userLogin = useSelector(state => state.userLogin)
+  const { userInfo } = userLogin
+
+  const dispatch = useDispatch()
+
+  const logoutHandler = () => {
+    dispatch(logout())
+  }
+
   return (
     <Navbar
       bg="dark"
@@ -17,7 +29,7 @@ function MyNavbar() {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
+          <Nav className="mr-auto">
             <Nav.Link as={Link} to="/doctor">
               Doctor
             </Nav.Link>
@@ -41,10 +53,22 @@ function MyNavbar() {
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>
-          <Nav>
-            <Nav.Link as={Link} to="/login">
-              Signed in as: Mark Otto
+          <Nav className="mr-auto">
+            {userInfo ? (
+              <NavDropdown title={userInfo.name} id="username">
+                <NavDropdown.Item as={Link} to="/profile">
+                Profile
+              </NavDropdown.Item>
+
+              <NavDropdown.Item onClick={logoutHandler}>
+                Logout
+              </NavDropdown.Item>
+              </NavDropdown>
+            ): (
+              <Nav.Link as={Link} to="/login">
+              <i className="fas fa-user"></i>Login
             </Nav.Link>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

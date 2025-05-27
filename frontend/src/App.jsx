@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container";
 import HomeScreen from "./screens/HomeScreen.jsx";
 import DoctorScreen from "./screens/DoctorScreen.jsx";
 import PatientScreen from "./screens/PatientScreen.jsx";
+import LoginScreen from './screens/LoginScreen.jsx'
 import Footer from "./components/Footer";
 import { useState } from "react";
 import "./App.css";
@@ -16,6 +17,7 @@ function App() {
         <Container>
           <Routes>
             <Route path="/" element={<HomeScreen />} exact />
+            <Route path="/login" element={<LoginScreen />} />
             <Route path="/doctor" element={<DoctorScreen />} />
             <Route path="/patient/:id" element={<PatientScreen />} />
           </Routes>

@@ -2,14 +2,20 @@ import { legacy_createStore as createStore, combineReducers, applyMiddleware } f
 import { thunk } from 'redux-thunk'
 import { composeWithDevTools } from '@redux-devtools/extension'
 import { patientListReducer, patientDetailsReducer } from './reducers/patientReducers'
+import { userLoginReducer } from './reducers/userReducers'
 
 const reducer = combineReducers({
     patientList: patientListReducer,
-    patientDetails: patientDetailsReducer
-
+    patientDetails: patientDetailsReducer,
+    userLogin: userLoginReducer,
 })
 
-const initialState = {}
+const userInfoFromStorage = localStorage.getItem('userInfo') ?
+    JSON.parse(localStorage.getItem('userInfo')) : null
+
+const initialState = {
+    userLogin: { userInfo: userInfoFromStorage }
+}
 
 const middleware = [thunk]
 
