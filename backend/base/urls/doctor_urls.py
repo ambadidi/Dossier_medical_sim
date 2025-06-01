@@ -9,6 +9,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     
     path('', views.getDoctor, name="doctor"),
+    # returns only the currently authenticated doctor
+    path('profile/', views.getMyDoctorProfile, name="doctor-profile"),
 ]
 
 if settings.DEBUG:

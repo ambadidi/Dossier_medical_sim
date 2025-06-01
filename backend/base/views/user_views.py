@@ -26,7 +26,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
-
+"""
 @api_view(['POST'])
 def registerUser(request):
     data = request.data
@@ -42,6 +42,33 @@ def registerUser(request):
     except:
         message = {'detail' : 'User with this email already exists'}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+"""
+@api_view(['POST'])
+def registerUser(request):
+    data = request.data
+    try:
+        # 1) Create the User
+        user = User.objects.create(
+            first_name=data['name'],
+            username=data['email'],
+            email=data['email'],
+            password=make_password(data['password'])
+        )
+
+        # 2) Immediately create a Doctor linked to this new User:
+        #    We’ll store the same name in the Doctor.name field.
+        Doctor.objects.create(
+            user=user,
+            name=data['name']
+        )
+
+        # 3) Serialize + return the token (same as before)
+        serializer = UserSerializerWithToken(user, many=False)
+        return Response(serializer.data)
+    except:
+        message = {'detail': 'User with this email already exists'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])

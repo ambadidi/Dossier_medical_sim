@@ -1,7 +1,7 @@
 import { legacy_createStore as createStore, combineReducers, applyMiddleware } from 'redux'
 import { thunk } from 'redux-thunk'
 import { composeWithDevTools } from '@redux-devtools/extension'
-import { patientListReducer, patientDetailsReducer } from './reducers/patientReducers'
+import { patientListReducer, patientDetailsReducer, patientCreateReducer } from './reducers/patientReducers'
 import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateProfileReducer } from './reducers/userReducers'
 
 const reducer = combineReducers({
@@ -11,6 +11,7 @@ const reducer = combineReducers({
     userRegister: userRegisterReducer,
     userDetails: userDetailsReducer,
     userUpdateProfile: userUpdateProfileReducer,
+    patientCreate: patientCreateReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo') ?
