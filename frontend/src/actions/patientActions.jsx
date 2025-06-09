@@ -54,46 +54,7 @@ export const listPatientDetails = (id) => async (dispatch) => {
       });
     }
   };
-/*
-  export const createPatient = (patient) => async (dispatch, getState) => {
-    try{
-        dispatch({
-            type: PATIENT_CREATE_REQUEST
-        })
 
-        const {
-            userLogin: { userInfo },
-        } = getState()
-
-        const config = {
-            headers: {
-                'content-type': 'application/json',
-                Authorization: `Bearer ${userInfo.token}`
-            }
-        }
-
-        const {data} = await axios.post(
-            `/api/patients/add/`,
-            patient,
-            config
-        )
-
-        dispatch({
-            type: PATIENT_CREATE_SUCCESS,
-            payload: data
-        })
-
-    } catch(error){
-        dispatch({
-                type: PATIENT_CREATE_FAIL,
-                payload:
-                  error.response && error.response.data.detail
-                    ? error.response.data.detail
-                    : error.message,
-              });
-    }
- }
-    */
  export const createPatient = (patientData) => async (dispatch, getState) => {
   try {
     dispatch({ type: PATIENT_CREATE_REQUEST });

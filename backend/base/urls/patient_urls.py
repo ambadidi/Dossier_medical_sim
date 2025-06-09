@@ -7,11 +7,9 @@ from django.conf.urls.static import static
 # )
 
 urlpatterns = [
-    
     path('', views.getPatients, name="patients"),
-    # path('<str:pk>/', views.getPatient, name="patient"),
-    path('<str:pk>/', views.getPatientById, name="patient"),
-    path('add/', views.addPatient, name='patients-add'),
+    path('add/', views.addPatient, name='patients-add'),  # Moved ABOVE dynamic path
+    path('<str:pk>/', views.getPatient, name="patient"),
 ]
 
 if settings.DEBUG:
