@@ -13,11 +13,21 @@ import {
   PATIENT_CREATE_FAIL,
 } from "../constants/patientConstants";
 
-export const listPatients = () => async (dispatch) => {
+export const listPatients = () => async (dispatch, getState) => {
   try {
     dispatch({ type: PATIENT_LIST_REQUEST });
-    // NEXT : Make an api call
-    const { data } = await axios.get("/api/patients/");
+    
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get("/api/patients/", config);
 
     dispatch({
       type: PATIENT_LIST_SUCCESS,
@@ -34,17 +44,27 @@ export const listPatients = () => async (dispatch) => {
   }
 };
 
-export const listPatientDetails = (id) => async (dispatch) => {
-    try {
-      dispatch({ type: PATIENT_DETAILS_REQUEST });
-      // NEXT : Make an api call
-      const { data } = await axios.get(`/api/patients/${id}`);
-  
-      dispatch({
-        type: PATIENT_DETAILS_SUCCESS,
-        payload: data,
-      });
-    } catch (error) {
+export const listPatientDetails = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: PATIENT_DETAILS_REQUEST });
+    
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/patients/${id}`, config);
+
+    dispatch({
+      type: PATIENT_DETAILS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
       dispatch({
         type: PATIENT_DETAILS_FAIL,
         payload:

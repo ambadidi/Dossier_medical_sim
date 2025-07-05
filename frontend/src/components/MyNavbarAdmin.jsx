@@ -5,7 +5,7 @@ import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { logout } from '../actions/userActions'
 import { useNavigate } from 'react-router-dom';
 
-function MyNavbar() {
+function MyNavbarAdmin() {
 
   const userLogin = useSelector(state => state.userLogin)
   const { userInfo } = userLogin
@@ -28,13 +28,13 @@ function MyNavbar() {
     >
       <Container fluid>
         <Navbar.Brand as={Link} to="/">
-        Espace Médecin
+        Espace Admin
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link as={Link} to="/doctor">
-              Doctor
+            <Nav.Link as={Link} to="/admin">
+              Admin
             </Nav.Link>
             <NavDropdown
               title="Actions"
@@ -59,9 +59,9 @@ function MyNavbar() {
           <Nav className="mr-auto">
             {userInfo ? (
               <NavDropdown title={userInfo.name} id="username" menuVariant="dark">
-                <NavDropdown.Item as={Link} to="/profile">
+                {/*<NavDropdown.Item as={Link} to="/profile">
                 Profil
-              </NavDropdown.Item>
+              </NavDropdown.Item>*/}
 
               <NavDropdown.Item onClick={logoutHandler}>
                 Logout
@@ -79,4 +79,4 @@ function MyNavbar() {
   );
 }
 
-export default MyNavbar;
+export default MyNavbarAdmin;

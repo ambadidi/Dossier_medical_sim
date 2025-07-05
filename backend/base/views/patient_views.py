@@ -8,14 +8,31 @@ from django.contrib.auth.models import User
 from base.models import Doctor, Patient
 from base.serializers import PatientSerializer
 
+import os
+import pandas as pd
+from django.conf import settings
+from rest_framework import viewsets, generics
+
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def getPatients(request):
     """
-    List all patients.
+    List only the patients belonging to the logged-in doctor.
     """
-    patients = Patient.objects.all()
+    # 1) Grab the current user’s Doctor profile
+    try:
+        doctor = Doctor.objects.get(user=request.user)
+    except Doctor.DoesNotExist:
+        return Response(
+            {'detail': 'No Doctor profile found for this user.'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    # 2) Filter patients by that doctor
+    patients = Patient.objects.filter(doctor=doctor)
     serializer = PatientSerializer(patients, many=True)
     return Response(serializer.data)
+
 
 @api_view(['GET'])
 def getPatient(request, pk):
@@ -70,3 +87,33 @@ def getPatientById(request, pk):
             Response({'detail': 'Not authorized to view this patient'}, status=status.HTTP_400_BAD_REQUEST)
     except:
         return Response({'detail': 'Patient does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+class PatientDetailView(generics.RetrieveAPIView):
+    queryset = Patient.objects.all()
+    serializer_class = PatientSerializer
+
+# Utility to load and slice Excel
+def load_choices(filename, code_col=None):
+    path = os.path.join(settings.EXCEL_ROOT, filename)
+    df = pd.read_excel(path)
+    if code_col:
+        df = df.rename(columns={code_col: 'code'})
+    items = df.to_dict(orient='records')
+    primary = items[:10]
+    others = items[10:]
+    return primary, others
+
+class ReasonListView(generics.GenericAPIView):
+    def get(self, request):
+        primary, others = load_choices('MOTIFS DE CONSULTATION.xlsx')
+        return Response({'primary': primary, 'others': others})
+
+class HistoryListView(generics.GenericAPIView):
+    def get(self, request):
+        primary, others = load_choices('DC ANTEC MEDICAUX CHIR FAM.xlsx', code_col='CODE')
+        return Response({'primary': primary, 'others': others})
+
+class AllergyListView(generics.GenericAPIView):
+    def get(self, request):
+        primary, others = load_choices('liste_allergies.xlsx')
+        return Response({'primary': primary, 'others': others})

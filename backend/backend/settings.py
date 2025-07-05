@@ -180,3 +180,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # FOR EXCEL UPLODING
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+import os
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+EXCEL_ROOT = os.path.abspath(os.path.join(BASE_DIR, '..', 'excel_sheets'))

@@ -1,13 +1,20 @@
-import React from 'react'
+import React from "react";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import MyNavbarAdmin from "../components/MyNavbarAdmin";
 
 function AdminScreen() {
   return (
-    <div>
-      <h1>Admin Screen</h1>
-    </div>
-  )
+    <>
+      <header>
+        <MyNavbarAdmin />
+      </header>
+
+      <div>
+        <h1>Admin Screen</h1>
+      </div>
+    </>
+  );
 }
 
-export default AdminScreen
+export default AdminScreen;
