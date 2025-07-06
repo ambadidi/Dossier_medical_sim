@@ -3,10 +3,10 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-
+from rest_framework.views import APIView
 from django.contrib.auth.models import User
-from base.models import Doctor, Patient
-from base.serializers import PatientSerializer
+from base.models import Doctor, Patient, MedicalFileEntry
+from base.serializers import PatientSerializer, MedicalFileEntrySerializer
 
 import os
 import pandas as pd
@@ -118,3 +118,21 @@ class AllergyListView(generics.GenericAPIView):
     def get(self, request):
         primary, others = load_choices('liste_allergies.xlsx')
         return Response({'primary': primary, 'others': others})
+
+class PatientMedicalFileCreateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        data = request.data.get('entries', [])
+        category = request.data.get('category')
+        created_by = request.user
+
+        for item in data:
+            item['patient'] = pk
+            item['category'] = category
+
+        serializer = MedicalFileEntrySerializer(data=data, many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
