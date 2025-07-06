@@ -8,7 +8,7 @@ import {
 export const listReasons = () => async (dispatch) => {
   try {
     dispatch({ type: REASONS_REQUEST });
-    const { data } = await axios.get('/api/lookup/reasons/');
+    const { data } = await axios.get('/api/patients/lookup/reasons/');
     dispatch({ type: REASONS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: REASONS_FAIL, payload: error.message });
@@ -18,7 +18,7 @@ export const listReasons = () => async (dispatch) => {
 export const listHistory = () => async (dispatch) => {
   try {
     dispatch({ type: HISTORY_REQUEST });
-    const { data } = await axios.get('/api/lookup/history/');
+    const { data } = await axios.get('/api/patients/lookup/history/');
     dispatch({ type: HISTORY_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: HISTORY_FAIL, payload: error.message });
@@ -28,7 +28,7 @@ export const listHistory = () => async (dispatch) => {
 export const listAllergies = () => async (dispatch) => {
   try {
     dispatch({ type: ALLERGIES_REQUEST });
-    const { data } = await axios.get('/api/lookup/allergies/');
+    const { data } = await axios.get('/api/patients/lookup/allergies/');
     dispatch({ type: ALLERGIES_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: ALLERGIES_FAIL, payload: error.message });

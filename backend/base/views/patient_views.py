@@ -103,6 +103,7 @@ def load_choices(filename, code_col=None):
     others = items[10:]
     return primary, others
 
+
 class ReasonListView(generics.GenericAPIView):
     def get(self, request):
         primary, others = load_choices('MOTIFS DE CONSULTATION.xlsx')
