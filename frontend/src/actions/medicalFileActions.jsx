@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { MEDFILE_SAVE_REQUEST, MEDFILE_SAVE_SUCCESS, MEDFILE_SAVE_FAIL } from '../constants/medicalFileConstants';
+import { MEDFILE_SAVE_REQUEST, MEDFILE_SAVE_SUCCESS, MEDFILE_SAVE_FAIL,
+  MEDFILE_SAVE_RESET } from '../constants/medicalFileConstants';
 
 export const saveMedicalFile = (patientId, data) => async (dispatch, getState) => {
   try {
@@ -12,3 +13,7 @@ export const saveMedicalFile = (patientId, data) => async (dispatch, getState) =
     dispatch({ type: MEDFILE_SAVE_FAIL, payload: error.message });
   }
 };
+
+export const resetMedicalFileSave = () => ({
+  type: MEDFILE_SAVE_RESET
+});

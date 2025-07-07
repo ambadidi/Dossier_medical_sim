@@ -15,6 +15,8 @@ urlpatterns = [
     path('lookup/history/', views.HistoryListView.as_view()),
     path('lookup/allergies/', views.AllergyListView.as_view()),
     path('<int:pk>/medical-file/', views.PatientMedicalFileCreateView.as_view()),
+    path('<int:pk>/medical-file/download/pdf/', views.PatientMedicalFileDownloadView.as_view()),
+    path('<int:pk>/medical-file/clear/', views.PatientMedicalFileClearView.as_view()),
 ]
 
 if settings.DEBUG:

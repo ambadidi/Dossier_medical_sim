@@ -13,6 +13,11 @@ import pandas as pd
 from django.conf import settings
 from rest_framework import viewsets, generics
 
+import io
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
+from django.http import HttpResponse
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def getPatients(request):
@@ -136,3 +141,59 @@ class PatientMedicalFileCreateView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class PatientMedicalFileDownloadView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        # Fetch all entries
+        entries = MedicalFileEntry.objects.filter(patient_id=pk).order_by('created_at')
+
+        # Create PDF buffer
+        buffer = io.BytesIO()
+        p = canvas.Canvas(buffer, pagesize=A4)
+        width, height = A4
+        y = height - 50
+
+        # Header
+        p.setFont('Helvetica-Bold', 16)
+        p.drawString(50, y, f"Medical File for Patient {pk}")
+        y -= 30
+
+        # Table header
+        p.setFont('Helvetica-Bold', 12)
+        p.drawString(50, y, "Date")
+        p.drawString(150, y, "Category")
+        p.drawString(300, y, "Label")
+        p.drawString(500, y, "Code")
+        y -= 20
+
+        # Table rows
+        p.setFont('Helvetica', 10)
+        for entry in entries:
+            if y < 50:
+                p.showPage()
+                y = height - 50
+            p.drawString(50, y, entry.created_at.strftime("%Y-%m-%d"))
+            p.drawString(150, y, entry.category)
+            p.drawString(300, y, entry.label)
+            p.drawString(500, y, entry.code or "-")
+            y -= 15
+
+        p.showPage()
+        p.save()
+
+        buffer.seek(0)
+        response = HttpResponse(buffer, content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="medical_file_{pk}.pdf"'
+        return response
+
+class PatientMedicalFileClearView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        entries = MedicalFileEntry.objects.filter(patient_id=pk)
+        count = entries.count()
+        entries.delete()
+        from rest_framework import status
+        return Response({'deleted': count}, status=status.HTTP_200_OK)
