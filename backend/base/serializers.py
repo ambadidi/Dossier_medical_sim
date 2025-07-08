@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .models import Doctor, Patient, MedicalFileEntry
+from .models import Doctor, Patient, MedicalFileEntry, Section, Category
 
 class UserSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField(read_only=True)
@@ -55,4 +55,16 @@ class MedicalFileEntrySerializer(serializers.ModelSerializer):
     class Meta:
         model = MedicalFileEntry
         fields = ['id', 'patient', 'category', 'label', 'code', 'created_at']
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
+
+class SectionSerializer(serializers.ModelSerializer):
+    categories = CategorySerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Section
+        fields = ['id', 'name', 'order', 'categories']
 

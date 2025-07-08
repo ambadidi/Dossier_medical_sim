@@ -19,6 +19,7 @@ import {
   allergiesReducer,
 } from './reducers/lookupReducers'
 import { medicalFileSaveReducer } from './reducers/medicalFileReducers';
+import { sectionsReducer, categoryLookupReducer } from './reducers/sectionReducers';
 
 const reducer = combineReducers({
   patientList: patientListReducer,
@@ -35,6 +36,9 @@ const reducer = combineReducers({
   allergies: allergiesReducer,
 
   medicalFileSave: medicalFileSaveReducer,
+
+  sectionsList: sectionsReducer,
+  categoryLookup: categoryLookupReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

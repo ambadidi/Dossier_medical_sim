@@ -46,3 +46,27 @@ class MedicalFileEntry(models.Model):
 
     def __str__(self):
         return f"{self.patient.name} - {self.category}: {self.label}"
+
+class Section(models.Model):
+    name = models.CharField(max_length=100)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.name
+
+class Category(models.Model):
+    section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name='categories')
+    name = models.CharField(max_length=100)
+    # excel_file = models.CharField(max_length=200)  # filename under EXCEL_ROOT
+    excel_file = models.FileField(upload_to='excel_sheets/', max_length=200)
+    code_column = models.CharField(max_length=100, blank=True, null=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['section__order', 'order']
+
+    def __str__(self):
+        return f"{self.section.name} - {self.name}"

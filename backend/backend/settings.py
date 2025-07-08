@@ -178,9 +178,15 @@ CORS_ALLOW_ALL_ORIGINS = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # FOR EXCEL UPLODING
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = BASE_DIR / 'media'
 
 import os
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-EXCEL_ROOT = os.path.abspath(os.path.join(BASE_DIR, '..', 'excel_sheets'))
+# EXCEL_ROOT = os.path.abspath(os.path.join(BASE_DIR, '..', 'excel_sheets'))
+# EXCEL_ROOT = os.path.join(BASE_DIR.parent, 'excel_sheets')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Set EXCEL_ROOT to the same location as MEDIA_ROOT
+EXCEL_ROOT = MEDIA_ROOT
