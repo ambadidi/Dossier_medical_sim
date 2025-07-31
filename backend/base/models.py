@@ -70,3 +70,72 @@ class Category(models.Model):
 
     def __str__(self):
         return f"{self.section.name} - {self.name}"
+
+#
+# ─── EXAMEN CLINIQUE CONFIGURATION ────────────────────────────────────────────────
+#
+
+class SubCategory(models.Model):
+    """
+    A sub‑category of a Category, e.g. “inspection” under “examen abdominal.”
+    """
+    category = models.ForeignKey(
+        Category,
+        related_name="subcategories",
+        on_delete=models.CASCADE
+    )
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f"{self.category.name} → {self.name}"
+
+
+FIELD_TYPE_CHOICES = [
+    ("number", "Number"),
+    ("text",   "Text"),
+    ("multi",  "Multiple choice"),
+]
+
+class Field(models.Model):
+    """
+    A single field either directly under a Category (like GCS)
+    or under a SubCategory (like abdominal inspection).
+    """
+    # one of these will be non‑null
+    category    = models.ForeignKey(
+        Category,
+        related_name="fields",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE
+    )
+    subcategory = models.ForeignKey(
+        SubCategory,
+        related_name="fields",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE
+    )
+    name       = models.CharField(max_length=200)
+    field_type = models.CharField(max_length=10, choices=FIELD_TYPE_CHOICES)
+    order      = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order"]
+
+    def __str__(self):
+        loc = self.subcategory or self.category
+        return f"{loc} → {self.name}"
+
+
+class Option(models.Model):
+    """
+    For multi‑choice fields only: e.g. “splénomégalie” or “autre.”
+    """
+    field    = models.ForeignKey(Field, related_name="options", on_delete=models.CASCADE)
+    label    = models.CharField(max_length=200)
+    # mark whether this option is the special “Autre” that triggers a text input
+    is_other = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.field.name}: {self.label}"

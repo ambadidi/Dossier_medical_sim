@@ -9,6 +9,8 @@ import { listSections, lookupCategory } from '../actions/sectionActions';
 import { saveMedicalFile, resetMedicalFileSave } from '../actions/medicalFileActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import MyNavbar from "../components/MyNavbar";
+import ExamenClinique from '../components/ExamenClinique';
 
 export default function PatientScreen() {
   const dispatch = useDispatch();
@@ -57,13 +59,38 @@ export default function PatientScreen() {
   if (errorS)    return <Message variant="danger">{errorS}</Message>;
 
   return (
+    <>{/*
+    <header>
+        <MyNavbar />
+      </header>
     <div className="container mt-3">
       <h1>Patient: {patient.name}</h1>
       <Accordion>
         {sections.map(section => (
           <div key={section.id} className="mb-4">
             <h3>{section.name}</h3>
-            <Accordion defaultActiveKey="">
+            
+            <Accordion defaultActiveKey=""> ici 
+              */}
+              <header><MyNavbar /></header>
+      <div className="container mt-3">
+        <h1>Patient: {patient.name}</h1>
+
+        <Accordion>
+          {sections.map(section => (
+            <div key={section.id} className="mb-4">
+              {section.name === 'examen clinique' ? (
+                <Accordion.Item eventKey={String(section.id)}>
+                  <Accordion.Header>{section.name}</Accordion.Header>
+                  <Accordion.Body>
+                    <ExamenClinique 
+                    patientId={id} 
+                    sectionId={section.id}
+                    />
+                  </Accordion.Body>
+                </Accordion.Item>
+              ) : (
+                <Accordion defaultActiveKey="">
               {section.categories.map(cat => (
                 <Accordion.Item eventKey={String(cat.id)} key={cat.id}>
                   <Accordion.Header onClick={() => handleCategoryClick(cat.id)}>
@@ -194,9 +221,11 @@ export default function PatientScreen() {
                 </Accordion.Item>
               ))}
             </Accordion>
+            )}{/* et ici */}
           </div>
         ))}
       </Accordion>
     </div>
+    </>
   );
 }

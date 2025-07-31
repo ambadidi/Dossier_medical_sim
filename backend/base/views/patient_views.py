@@ -7,8 +7,13 @@ from rest_framework import status
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
 from base.models import Doctor, Patient, MedicalFileEntry, Section, Category
-from base.serializers import PatientSerializer, MedicalFileEntrySerializer, SectionSerializer, CategorySerializer
-
+from base.models import SubCategory, Field, Option
+from base.serializers import (PatientSerializer, MedicalFileEntrySerializer, SectionSerializer, CategorySerializer, SectionDetailSerializer,
+    CategoryDetailSerializer,
+    SubCategorySerializer,
+    FieldSerializer,
+    OptionSerializer,
+)
 import os
 import pandas as pd
 from django.conf import settings
@@ -273,7 +278,8 @@ class PatientMedicalFileClearView(APIView):
 #     serializer_class = SectionSerializer
 class SectionViewSet(viewsets.ModelViewSet):
     queryset = Section.objects.all()
-    serializer_class = SectionSerializer
+    # serializer_class = SectionSerializer
+    serializer_class = SectionDetailSerializer
     # Allow authenticated users to read, only admins to modify
     def get_permissions(self):
         from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -285,7 +291,8 @@ class SectionViewSet(viewsets.ModelViewSet):
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
-    serializer_class = CategorySerializer
+    # serializer_class = CategorySerializer
+    serializer_class = CategoryDetailSerializer
     permission_classes = [IsAdminUser]
 
     # Allow file upload (storing only filename under EXCEL_ROOT)
@@ -299,3 +306,30 @@ class CategoryViewSet(viewsets.ModelViewSet):
                 f.write(chunk)
         serializer.save(excel_file=filename)
 
+# ─── New ViewSets for Examen Clinique ────────────────────────────────────────────
+
+class SubCategoryViewSet(viewsets.ModelViewSet):
+    """
+    CRUD for SubCategory (e.g. 'inspection', 'palpation', etc.)
+    """
+    queryset = SubCategory.objects.all()
+    serializer_class = SubCategorySerializer
+    permission_classes = [IsAdminUser]
+
+
+class FieldViewSet(viewsets.ModelViewSet):
+    """
+    CRUD for Field (number/text/multi), with nested options.
+    """
+    queryset = Field.objects.all()
+    serializer_class = FieldSerializer
+    permission_classes = [IsAdminUser]
+
+
+class OptionViewSet(viewsets.ModelViewSet):
+    """
+    CRUD for Option (labels like 'splénomégalie', 'autre', etc.)
+    """
+    queryset = Option.objects.all()
+    serializer_class = OptionSerializer
+    permission_classes = [IsAdminUser]
