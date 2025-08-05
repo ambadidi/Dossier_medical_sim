@@ -78,14 +78,7 @@ export default function PatientScreen() {
       existingItem => existingItem.label === item.label
     );
     
-    if (exists) {
-      // If it exists, remove it (deselect)
-      setDraftFile(prev => ({
-        ...prev,
-        [catId]: prev[catId].filter(existingItem => existingItem.label !== item.label)
-      }));
-    } else {
-      // If it doesn't exist, add it (select)
+    if (!exists) {
       setDraftFile(prev => ({
         ...prev,
         [catId]: [...(prev[catId] || []), item]
@@ -314,13 +307,12 @@ export default function PatientScreen() {
                                               key={idx}
                                               action
                                               onClick={() => handleSelect(cat.id, item)}
-                                              active={isItemSelected(cat.id, item)}
+                                              disabled={isItemSelected(cat.id, item)}
                                               className="d-flex justify-content-between align-items-center"
-                                              style={{ cursor: 'pointer' }}
                                             >
                                               <span>{item.label}</span>
                                               {isItemSelected(cat.id, item) && (
-                                                <i className="fas fa-check text-white"></i>
+                                                <i className="fas fa-check text-success"></i>
                                               )}
                                             </ListGroup.Item>
                                           ))}
@@ -343,13 +335,12 @@ export default function PatientScreen() {
                                               key={idx}
                                               action
                                               onClick={() => handleSelect(cat.id, item)}
-                                              active={isItemSelected(cat.id, item)}
+                                              disabled={isItemSelected(cat.id, item)}
                                               className="d-flex justify-content-between align-items-center"
-                                              style={{ cursor: 'pointer' }}
                                             >
                                               <span>{item.label}</span>
                                               {isItemSelected(cat.id, item) && (
-                                                <i className="fas fa-check text-white"></i>
+                                                <i className="fas fa-check text-success"></i>
                                               )}
                                             </ListGroup.Item>
                                           ))}

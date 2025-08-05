@@ -160,14 +160,51 @@ export default function ExamenClinique({ patientId, sectionId }) {
     handleChange(fieldId, next);
   };
 
-  const handleSubmit = () => {
+  /*const handleSubmit = () => {
     dispatch(
       saveMedicalFile(patientId, {
         category: 'examen_clinique',
         entries: Object.entries(answers).map(([fid, value]) => ({ fid, value })),
       })
     );
-  };
+  };*/
+
+  const handleSubmit = () => {
+   // Flatten all categories & subcategories into { label, code } items
+   const entries = section.categories.flatMap(cat => {
+     // direct numeric/text fields
+     const direct = cat.fields.map(f => ({
+       label: f.name,
+       code: answers[f.id] != null ? String(answers[f.id]) : ''
+     }));
+
+     // each subcategory: multi-choice
+     const subs = cat.subcategories.flatMap(sub =>
+       sub.fields.flatMap(fld => {
+         const picked = answers[fld.id] || [];
+         return picked.map(optId => {
+           const opt = fld.options.find(o => o.id === optId);
+           const isOther = opt?.is_other;
+           return {
+             label: `${fld.name}: ${opt?.label}`,
+             code: isOther
+               ? (answers[`other-${fld.id}`] || '')
+               : ''
+           };
+         });
+       })
+     );
+
+     return [...direct, ...subs];
+   });
+
+   dispatch(
+     saveMedicalFile(patientId, {
+       category: 'examen clinique',
+       entries
+     })
+   );
+ };
 
   if (!section) return <Loader />;
 
